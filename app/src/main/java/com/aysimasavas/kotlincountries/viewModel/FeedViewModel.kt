@@ -3,8 +3,20 @@ package com.aysimasavas.kotlincountries.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aysimasavas.kotlincountries.model.Country
+import com.aysimasavas.kotlincountries.service.CountryAPIService
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 
 class FeedViewModel: ViewModel() {
+
+
+    private val countryAPIService = CountryAPIService()
+
+    private val disposible= CompositeDisposable() //kullan at objesi
 
     val countries= MutableLiveData<List<Country>>()
     val countryError=MutableLiveData<Boolean>()
@@ -14,17 +26,34 @@ class FeedViewModel: ViewModel() {
     fun refreshData()
     {
 
-        val country=Country("Turkey","Asia","Ankara","TRY","Turkish",".com")
-        val country2=Country("Almanya","Europ","Ankara","TRY","Turkish",".com")
-        val country3=Country("Fransa","Europe","Ankara","TRY","Turkish",".com")
+        getDataFromAPI()
 
-        val countryList= arrayListOf<Country>(country,country2,country3)
+    }
 
-        countries.value=countryList
-        countryError.value=false
-        countryLoading.value=false
+    private fun getDataFromAPI()
+    {
 
+        countryLoading.value=true
 
+        disposible.add(
+                countryAPIService.getData()
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Country>>(){
+                            override fun onSuccess(t: List<Country>) {
+                                countries.value=t
+                                countryError.value=false
+                                countryLoading.value=false
+                            }
+
+                            override fun onError(e: Throwable) {
+                                countryLoading.value=false
+                                countryError.value=true
+                                e.printStackTrace()
+                            }
+
+                        })
+        )
     }
 
 }
