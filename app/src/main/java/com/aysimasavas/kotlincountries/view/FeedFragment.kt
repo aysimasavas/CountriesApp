@@ -47,7 +47,7 @@ class FeedFragment : Fragment() {
             countryList.visibility=View.GONE
             country_error_text.visibility=View.GONE
             countryLoading.visibility=View.VISIBLE
-            viewModel.refreshData()
+            viewModel.refreshFromAPI()
             swipeRefreshLayout.isRefreshing=false
 
         }

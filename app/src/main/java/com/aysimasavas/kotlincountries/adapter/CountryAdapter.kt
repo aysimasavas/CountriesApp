@@ -28,11 +28,12 @@ class CountryAdapter(val countryList: ArrayList<Country>): RecyclerView.Adapter<
 
 
         holder.view.setOnClickListener {
-            val action=FeedFragmentDirections.actionFeedFragmentToCountryFragment()
+            val action=FeedFragmentDirections.actionFeedFragmentToCountryFragment(countryList[position].uuid)
+
             Navigation.findNavController(it).navigate(action)
         }
 
-        countryList[position].imageUrl?.let { holder.view.imageView.downloadFromUrl(it, placeHolderProgressBar(holder.view.context)) }
+        countryList[position].flag?.let { holder.view.imageView.downloadFromUrl(it, placeHolderProgressBar(holder.view.context)) }
 
     }
 
