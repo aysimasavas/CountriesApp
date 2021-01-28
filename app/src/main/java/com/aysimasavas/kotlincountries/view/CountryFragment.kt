@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aysimasavas.kotlincountries.R
+import com.aysimasavas.kotlincountries.databinding.FragmentCountryBinding
 import com.aysimasavas.kotlincountries.util.downloadFromUrl
 import com.aysimasavas.kotlincountries.util.placeHolderProgressBar
 import com.aysimasavas.kotlincountries.view.CountryFragmentArgs
@@ -21,6 +23,9 @@ class CountryFragment : Fragment() {
     private lateinit var viewModel:CountryViewModel
 
     private var countryUuId=0
+
+    private lateinit var databinding: FragmentCountryBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,7 +36,9 @@ class CountryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_country, container, false)
+        databinding= DataBindingUtil.inflate(inflater,R.layout.fragment_country,container,false)
+
+        return databinding.root
     }
 
 
@@ -56,7 +63,10 @@ class CountryFragment : Fragment() {
         viewModel.countryLiveData.observe(viewLifecycleOwner, Observer { country->
 
             country?.let {
-                country_name_text.text=country.countryName
+
+                databinding.selectedCountry=it
+
+                /*country_name_text.text=country.countryName
                 country_language_text.text=country.countryLanguage
                 region_name_text.text=country.countryRegion
                 capital_name_text.text=country.countryCapital
@@ -64,7 +74,7 @@ class CountryFragment : Fragment() {
 
                 context?.let {
                     country.flag?.let { it1 -> country_image.downloadFromUrl(it1, placeHolderProgressBar(it)) }
-                }
+                }*/
 
             }
         })

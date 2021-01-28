@@ -3,6 +3,11 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
+    <data>
+        <variable
+            name="selectedCountry"
+            type="com.aysimasavas.kotlincountries.model.Country" />
+    </data>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,9 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:downloadUrl="@{selectedCountry.flag}"
         android:scaleType="fitCenter"
         android:paddingTop="10dp"
-        android:src="@mipmap/ic_launcher"
+
         android:minHeight="200dp">
 
     </ImageView>
@@ -23,7 +29,7 @@
         android:id="@+id/country_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CountryName"
+        android:text="@{selectedCountry.countryName}"
         android:textSize="36sp"
         android:textStyle="bold"
         android:layout_margin="10dp"
@@ -36,7 +42,7 @@
         android:id="@+id/capital_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CapitalName"
+        android:text="@{selectedCountry.countryCapital}"
         android:textSize="20sp"
 
         android:layout_margin="10dp"
@@ -50,7 +56,7 @@
         android:id="@+id/region_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RegionName"
+        android:text="@{selectedCountry.countryRegion}"
         android:textSize="20sp"
 
         android:layout_margin="10dp"
@@ -64,7 +70,7 @@
         android:id="@+id/currency_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CurrencyName"
+        android:text="@{selectedCountry.countryCurrency}"
         android:textSize="20sp"
 
         android:layout_margin="10dp"
@@ -78,7 +84,7 @@
         android:id="@+id/country_language_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language"
+        android:text="@{selectedCountry.countryLanguage}"
         android:textSize="20sp"
         android:layout_margin="10dp"
         android:layout_centerHorizontal="true"

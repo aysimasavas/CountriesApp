@@ -2,6 +2,7 @@ package com.aysimasavas.kotlincountries.util
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.aysimasavas.kotlincountries.R
 import com.bumptech.glide.Glide
@@ -12,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 //hangi sınıfa eklemek istiyosan belirt
 
 
-fun ImageView.downloadFromUrl(url :String,progressDrawable: CircularProgressDrawable)
+fun ImageView.downloadFromUrl(url: String?, progressDrawable: CircularProgressDrawable)
 {
 
     val options = RequestOptions()
@@ -35,4 +36,10 @@ fun placeHolderProgressBar(context : Context): CircularProgressDrawable
         centerRadius=40f
         start()
     }
+}
+
+@BindingAdapter("android:downloadUrl")
+fun download(view:ImageView,url: String?)
+{
+    view.downloadFromUrl(url, placeHolderProgressBar(view.context))
 }
